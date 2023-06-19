@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+  <title>RumahSehat</title>
+  <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+  <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"
+          integrity="sha512-ElRFoEQdI5Ht6kZvyzXhYG9NqjtkmlkfYk0wr6wHxU9JEHakS7UJZNeml5ALk+8IKlU6jDgMabC3vkumRokgJA=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      font-family: sans-serif;
+    }
+    .chartMenu {
+      width: 100vw;
+      height: 40px;
+      background: #1A1A1A;
+      color: rgba(255, 26, 104, 1);
+    }
+    .chartMenu p {
+      padding: 10px;
+      font-size: 20px;
+    }
+    .chartCard {
+      width: 100vw;
+      height: calc(100vh - 40px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .chartBox {
+      width: 700px;
+      padding: 20px;
+      border-radius: 20px;
+      border: solid 3px #5698B9;;
+      background: white;
+    }
+  </style>
+</head>
+<body>
+<nav th:replace="fragments/fragment :: navbar('Base')"></nav>
+<div class="container my-5">
+  <div class="d-flex justify-content-center">
+    <h2 style="color: #63A9BE; font-weight: bold; font-size: 28px">Pemasukan Setiap Dokter</h2>
+  </div>
+  <div class="d-flex justify-content-center">
+    <h3 style="color: #468799; font-weight: bold; font-size: 30px">pada Tahun Ini</h3>
+  </div>
+  <div class="chartBox">
+    <canvas id="myChart"></canvas>
+  </div>
+  <br>
+  <div>
+    <a th:href="@{/dokter/chart/line/2}" class="btn" style="background-color: #5698B9; color: white">Lihat Tampilan Lain</a>
+    <a type="button" c class="mx-2 btn btn-outline-primary" href="/dokter/viewall">Kembali</a>
+  </div>
+  <script th:inline="javascript">
+    /*<![CDATA[*/
+
+    var dokterIncomes = /*[[${dokterIncomes}]]*/ 'default';
+    console.log(dokterIncomes);
+
+    /*]]>*/
+    $(document).ready(function () {
+
+      const datasets = dokterIncomes.map((o,i) => ({
+        label: o.dokter,
+        data: o.incomes
+      }));
+
+      console.log(datasets);
+
+      const dokterSatu = {
+        label: "Dokter Satu",
+        data: [11,12,13,14,15,16,17,18,19,20,21,22]
+      };
+
+      const dokterDua = {
+        label: "Dokter Dua",
+        data: [13,14,15,16,17,18,19,20,21,22,23,24]
+      };
+
+      const monthlyIncomeData = {
+        labels: ['Januari', 'Februari', 'Maret',
+                  'April', 'Mei', 'Juni',
+                  'Juli', 'Agustus', 'September',
+                  'Oktober', 'November', 'Desember'],
+        datasets: datasets
+      };
+
+      const chartOptions = {
+        legend: {
+          display: true,
+          position: 'top',
+          labels: {
+            boxWidth: 80,
+            fontColor: 'black'
+          }
+        }
+      };
+
+      // config
+      const config = {
+        type: 'line',
+        data: monthlyIncomeData,
+        options: chartOptions,
+      };
+
+      // render init block
+      const myChart = new Chart(
+              document.getElementById('myChart'),
+              config
+      );
+    });
+
+    // setup
+
+  </script>
+</div>
+
+
+<!-- bootstrap & popper js -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+
+</script>
+</body>
+</html>

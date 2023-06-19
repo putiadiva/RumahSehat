@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+  <title>RumahSehat</title>
+  <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+  <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<body>
+<nav th:replace="fragments/fragment :: navbar('DetailResep')"></nav>
+<div class="d-flex justify-content-center">
+
+    <div class="container">
+      <div class="card m-4 p-4">
+        <h2 class="font-weight-bold text-center " style=" background-color: #A3E4D7; height: 51px; padding-top: 5px">Detail Resep</h2>
+        <div class="card-body">
+
+
+          <table class="table">
+            <tbody>
+            <tr>
+              <th>ID Resep</th>
+              <td th:text="${resep.id}"></td>
+            </tr>
+
+            <tr>
+              <th>Nama Dokter</th>
+              <td th:text="${dokter}"> </td>
+            </tr>
+
+            <tr>
+              <th>Nama Pasien</th>
+              <td th:text="${resep.appointment.pasien.nama}"> </td>
+            </tr>
+
+            <tr>
+              <th>Status</th>
+              <td th:if="*{resep.isDone}">
+                <p>Selesai</p>
+              </td>
+              <td th:unless="*{resep.isDone}">
+                <p>Belum Selesai</p>
+              </td>
+            </tr>
+
+            <tr>
+              <th>Nama Apoteker</th>
+<!--              <td th:text="${resep.apoteker}==NULL ? 'Belum di konfirmasi'"></td>-->
+              <td th:if="*{resep.apoteker==NULL}">
+                <p>RESEP BELUM DIKONFIRMASI</p>
+              </td>
+              <td th:unless="*{resep.apoteker==NULL}">
+                <p th:text="${resep.apoteker.nama}"> </p>
+              </td>
+            </tr>
+
+            </tbody>
+          </table>
+
+
+          <div class="col">
+            <br>
+            <h4>Daftar Obat Resep</h4>
+            <table class="table">
+              <thead style="background-color: #D0ECE7">
+              <tr>
+                <th>ID Obat</th>
+                <th>Nama Obat</th>
+                <th>Kuantitas</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr th:each="resep, iterationStatus : ${listResep}">
+                <td th:text="${resep.obat.idObat}"></td>
+                <td th:text="${resep.obat.namaObat}"></td>
+                <td th:text="${resep.kuantitas}"></td>
+              </tr>
+              </tbody>
+            </table>
+            <div th:unless="*{listResep.size() != 0}">
+              <p th:text= "'Tidak ada Obat'"></p>
+            </div>
+          </div>
+
+          <br><br>
+
+
+          <script>
+            document.write('<a class="btn float-lg-right " style="border-color: #F5B7B1;border-width: 3px; margin:5px; width: 100px" href="' + document.referrer + '">Kembali</a>');
+          </script>
+          <div th:unless="*{resep.isDone}">
+            <button sec:authorize="hasAuthority('APOTEKER')"  class="btn float-lg-right " style="background-color: #D6EAF8;margin:5px;height:42px; width: 100px"  data-toggle="modal" data-target="#exampleModal" >Confirm</button>
+          </div>
+          <!-- Modal -->
+          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Konfirmasi</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  Apakah anda sudah yakin untuk melakukan konfirmasi terhadap resep?
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <a type="button" class="btn" style="background-color: #ADD8E6" th:href="@{/resep/confirm/} + ${resep.id}">Confirm</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+
+  </div>
+</div>
+
+</body>
+</html>

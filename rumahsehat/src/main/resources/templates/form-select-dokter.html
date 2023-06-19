@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+  <title>RumahSehat</title>
+  <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+  <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+<nav th:replace="fragments/fragment :: navbar('Base')"></nav>
+<div class="container">
+  <div class="justify-content-center">
+    <div class="d-flex justify-content-center">
+      <h2>Pilih Dokter dan Periode</h2>
+    </div>
+    <div class="d-flex justify-content-center">
+      <h3>yang ingin ditampilkan</h3>
+    </div>
+    <form th:action="@{/dokter/chart/line/2}" th:object="${chartViewDto}" method="POST">
+      <div class="form-group">
+      <select th:field="*{dokter1.uuid}">
+        <option selected th:value="0">Pilih...</option>
+        <div th:each="d : ${allDokter}">
+          <option th:value="${d.uuid}" th:text="${d.nama}"></option>
+        </div>
+      </select>
+      </div>
+      <div class="form-group">
+      <select th:field="*{dokter2.uuid}">
+        <option selected th:value="0">Pilih...</option>
+        <div th:each="d : ${allDokter}">
+          <option th:value="${d.uuid}" th:text="${d.nama}"></option>
+        </div>
+      </select>
+      </div>
+      <div class="form-group">
+      <select th:field="*{dokter3.uuid}">
+        <option selected th:value="0">Pilih...</option>
+        <div th:each="d : ${allDokter}">
+          <option th:value="${d.uuid}" th:text="${d.nama}"></option>
+        </div>
+      </select>
+      </div>
+      <div class="form-group">
+      <select th:field="*{dokter4.uuid}">
+        <option selected th:value="0">Pilih...</option>
+        <div th:each="d : ${allDokter}">
+          <option th:value="${d.uuid}" th:text="${d.nama}"></option>
+        </div>
+      </select>
+      </div>
+      <div class="form-group">
+      <select th:field="*{dokter5.uuid}">
+        <option selected th:value="0">Pilih...</option>
+        <div th:each="d : ${allDokter}">
+          <option th:value="${d.uuid}" th:text="${d.nama}"></option>
+        </div>
+      </select>
+      </div>
+      <div class="form-group">
+      <select th:field="*{isBulananNotTahunan}">
+        <option value="true">Bulanan</option>
+        <option value="false">Tahunan</option>
+      </select>
+      </div>
+      <button class="btn btn-primary" type="submit">Submit</button>
+      <a type="button" c class="mx-2 btn btn-outline-primary" href="/dokter/viewall">Kembali</a>
+    </form>
+  </div>
+</div>
+</body>
+</html>

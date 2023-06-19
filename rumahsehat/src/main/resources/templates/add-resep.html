@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+  <title>SI-SDM</title>
+  <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+  <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+<body>
+<nav th:replace="fragments/fragment :: navbar('Base')"></nav>
+<div class="container">
+  <div class="card m-4 p-4">
+    <div class="card-body">
+      <div class="justify-content-center">
+        <h2 th:text="'Resep dengan id ' + ${idResep} +  ' berhasil dibuat.'"></h2>
+        <br>
+        <a class="mx-2 btn " style="background-color: #ADD8E6" href="/">Home</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
